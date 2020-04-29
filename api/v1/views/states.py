@@ -1,36 +1,29 @@
+#!/usr/bin/python3
+"""
+States file
+"""
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
-from models.amenity import Amenity
 from models.state import State
-from models.city import City
-from models.place import Place
-from models.user import User
-from models.review import Review
-"""
-index
-"""
 
 
-@app_views.route('/status')
-def all_states():
+@app_views.route('/states/')
+def get_all_states():
     """
-    get status
+    get states
     """
-    return jsonify(status="OK")
-
-
-@app_views.route('/stats')
-def counts():
-    """
-    hahah
-    """
-    lista = {
-            "amenities": storage.count(Amenity),
-            "cities": storage.count(City),
-            "places": storage.count(Place),
-            "reviews": storage.count(Review),
-            "states": storage.count(State),
-            "users": storage.count(User)
-            }
+    all_states = storage.all(State).values()
+    lista = []
+    for i in all_states:
+        lista.append(i.to_dict())
     return jsonify(lista)
+
+
+@app_views.route('states/<state_id>', methods=['GET'])
+def get_by_id(state_id):
+    """
+    get state by id
+    """
+    state = storage.get(State, state_id).to_dict()
+    return jsonify(state)
