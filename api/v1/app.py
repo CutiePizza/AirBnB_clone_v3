@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, Response
 from models import storage
 from api.v1.views import app_views
 """
@@ -16,11 +16,11 @@ def teardown(self):
     storage.close()
 
 @app.errorhandler(404)
-def error404(e):
+def handle_error_404(e):
     """
     hadle error 404 not found
     """
-    return jsonify(error="Not found")
+    return jsonify(error= "Not found"), 404
 
 if __name__ == "__main__":
     """
