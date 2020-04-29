@@ -33,4 +33,4 @@ def counts():
             "states": storage.count(State),
             "users": storage.count(User)
             }
-    return jsonify(indent=2, sort_keys=False, result=lista)
+    return jsonify(lista)
