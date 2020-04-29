@@ -3,7 +3,7 @@
 States file
 """
 from api.v1.views import app_views
-from flask import jsonify
+from flask import jsonify, abort
 from models import storage
 from models.state import State
 
@@ -27,3 +27,17 @@ def get_by_id(state_id):
     """
     state = storage.get(State, state_id).to_dict()
     return jsonify(state)
+
+
+@app_views.route('states/<state_id>', methods=['DELETE'])
+def delete_by_id(state_id):
+    """
+    delete state by id
+    """
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    else:
+        storage.delete(state)
+        dic = {}
+        return jsonify(dic), 200
