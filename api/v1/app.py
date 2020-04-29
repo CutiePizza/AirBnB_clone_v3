@@ -15,12 +15,13 @@ def teardown(self):
     """
     storage.close()
 
+
 @app.errorhandler(404)
 def handle_error_404(e):
     """
     hadle error 404 not found
     """
-    return jsonify(error= "Not found"), 404
+    return jsonify(error="Not found"), 404
 
 if __name__ == "__main__":
     """
